@@ -138,8 +138,17 @@ export default defineComponent({
 ```
 import { createApp } from "vue";
 
-//该语句报错，找不到该模块【】
+//该语句报错，找不到该模块【解决方法3.3.1】
 import LeaIcon from './components/icon/index.vue';
 
 createApp(LeaIcon).mount('#app')
+```
+### 3.3.1 解决找不到该模块的问题
+```
+# 在[src]目录下，新建shims-vue.d.ts声明文件【声明文件以.d.ts】,代码如下
+declare module "*.vue"{
+  import { DefineComponent } from "vue";
+  const component:DefineComponent<{},{},any>;
+  export default component;
+}
 ```
