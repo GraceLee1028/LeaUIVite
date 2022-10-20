@@ -103,7 +103,7 @@ npm run dev
 # 3. 提供vue3单文件组件支持，根目录新建vite.config.js文件
 ## 3.1 安装插件
 ```
-# 安装插件
+# 安装插件[当前版本：3.1.2]
 pnpm i @vitejs/plugin-vue -D
 
 # 在vite.config.ts文件填写
@@ -152,3 +152,51 @@ declare module "*.vue"{
   export default component;
 }
 ```
+
+# 4. 支持JSX语法，配置在vite.config.js文件
+## 安装和配置
+```
+# 安装[当前版本：2.0.1]
+pnpm i @vitejs/plugin-vue-jsx -D
+
+# 配置在vite.config.js文件
+import viteJsPluginVueJsx from "@vitejs/plugin-vue-jsx"
+export default defineConfig({
+  plugins:[
+    viteJsPluginVueJsx()
+  ]
+})
+# 在components目录下，新建组件 container目录>index.jsx【想要支持ts:则为index.tsx】；代码如下：
+import {defineComponent} from "vue";
+export default defineComponent({
+  name:'LeaContainer',
+  render(){
+    return <section>container</section>
+  }
+})
+# 如果是index.tsx，jsx语法会报错，此时配置tsconfig.json文件即可
+{
+    "compilerOptions": {
+        "declaration": true, /* 生成相关的 '.d.ts' 文件。 */
+        "declarationDir": "./dist/types", /* '.d.ts' 文件输出目录 */
+        "jsx": "preserve",
+    },
+    "include": [
+        "./**/*.*",
+        "./shims-vue.d.ts",
+    ],
+    "exclude": [
+        "node_modules"
+    ],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": "true"
+}
+
+# 在main.ts上引入组件
+import { createApp } from "vue";
+import LeaContainer from './components/container/index'
+createApp(LeaContainer).mount('#app')
+```
+
+
+
